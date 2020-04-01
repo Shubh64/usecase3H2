@@ -91,7 +91,13 @@
                             }]
                         }
                     }));
-
+                    it('should call render the booknow button', function (done) {
+                    flush(function () {
+                        searchBtn.click();
+                        expect(sinonSpy.callCount).to.be.equal(1)
+                        done();
+                    })
+                })
                 })
             })
         })

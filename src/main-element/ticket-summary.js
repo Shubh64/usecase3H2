@@ -28,18 +28,18 @@ class TicketSummary extends PolymerElement {
       </style>
       <app-location route="{{route}}"></app-location>
       <paper-button on-click="_handleBack"><iron-icon icon="icons:arrow-back"></iron-icon></paper-button>
-      <div>
+      <div id="bookingSummary">
         <h3>Booking Summary</h3>
         <ul class="details">
         <li>Train Name : {{trainDetails.trainName}}</li>
         <li>Departure Time : {{trainDetails.departureTime}}</li>
         <li>Arrival Time : {{trainDetails.arrivalTime}}</li>
         <li>Travel Date: {{trainDetails.date}}</li>
-        <li>Total Price : INR{{totalPrice}}</li>
+        <li>Total Price : {{totalPrice}} INR</li>
         </ul>
       </div>
       <h3>Travellers Details</h3>
-      <table>
+      <table id="table">
       <thead id="tableHead">
          <tr>
           <th>Name</th>
@@ -66,9 +66,9 @@ class TicketSummary extends PolymerElement {
         type: Array,
         value: []
       },
-      flightDetails: {
+      trainDetails: {
         type: Object,
-        //default value???
+        value: {}
       },
       totalPrice: {
         type: Number,
@@ -88,8 +88,6 @@ class TicketSummary extends PolymerElement {
   _handleBack() {
     this.set('route.path', '/book')
   }
-  //_handleClick() is fired when proceed to pay button is clicked
-
 }
 
 window.customElements.define('ticket-summary', TicketSummary);

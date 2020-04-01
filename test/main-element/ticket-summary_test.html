@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+
+<head>
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../../node_modules/@polymer/test-fixture/test-fixture.js"></script>
+    <script src="../../node_modules/mocha/mocha.js"></script>
+    <script src="../../node_modules/chai/chai.js"></script>
+    <script src="../../node_modules/sinon/pkg/sinon.js"></script>
+    <script src="../../node_modules/wct-mocha/wct-mocha.js"></script>
+    <script type="module" src="../../src/main-element/ticket-summary.js"></script>
+</head>
+
+<body>
+    <test-fixture id="ticketSummary">
+        <template>
+            <ticket-summary></ticket-summary>
+        </template>
+    </test-fixture>
+    <script>
+
+
+        describe('When the component is rendered', function () {
+            beforeEach(function () {
+                element = fixture('ticketSummary');
+                elementShadowRoot = element.shadowRoot;
+            });
+            it('should render the component', function () {
+                let travelDetail = JSON.parse(sessionStorage.getItem('travelDetail'));
+                let trainDetails = JSON.parse(sessionStorage.getItem('trainDetails'))
+                expect(element).to.be.exist;
+                expect(elementShadowRoot).to.be.exist;
+            });
+            it('should render the bookingSummary field', () => {
+                let bookingSummary = elementShadowRoot.querySelector('#bookingSummary')
+                expect(bookingSummary).to.be.exist;
+            });
+
+            it('should render the table', () => {
+                let table = elementShadowRoot.querySelector('#table')
+                expect(table).to.be.exist;
+            });
+        })
+
+    </script>
+</body>
+
+</html>

@@ -94,7 +94,6 @@ class RegistrationPage extends PolymerElement {
       </main>
       </div>
       <paper-toast id="toast" text={{message}}></paper-toast>
-   
     `;
   }
   static get properties() {
@@ -125,18 +124,9 @@ class RegistrationPage extends PolymerElement {
   }
 
   _ajaxResponse(event){
-    console.log(event);
-    if(event.detail.response.statusCode==607){
       this.message="Successfully Registered";
       this.$.toast.open();
     this.$.register.reset();
-    window.history.pushState({},null,'#/login');
-    window.dispatchEvent(new CustomEvent('location-changed'));
-  }
-  if(event.detail.response.statusCode==607){
-    this.message="User Already Exist";
-    this.$.toast.open();
-}
   }
   _handleLogin(){
     this.set('route.path','/login')

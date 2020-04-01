@@ -8,6 +8,7 @@ import '@polymer/paper-button/paper-button.js';
 import '@polymer/app-route/app-location.js';
 import './ajax-call.js';
 import '@polymer/paper-checkbox/paper-checkbox.js'
+import './shared-styles';
 /**
 * @customElement
 * @polymer
@@ -111,7 +112,7 @@ class BookTrain extends PolymerElement {
 <paper-button id="myBookings" on-click="_handleMyBookings" raised>My Bookings</paper-button>
 <!--Test doc's -->
 <nav class="wrapper">
-    <ul>
+    <ul >
         <li><input id="from" type="text" placeholder="From"/></li>
         <li><iron-icon icon=icons:compare-arrows></iron-icon></li>
         <li><input id="destination" type="text" placeholder="To" /></li>
@@ -131,9 +132,9 @@ class BookTrain extends PolymerElement {
     </ul>
 </nav>
 <div id="search">
-<paper-button on-click="_handleSearch" raised>Search</paper-button>
+<paper-button id="searchBtn" on-click="_handleSearch" raised>Search</paper-button>
 </div>
-<table class="table">
+<table class="table" id="table">
     <thead>
         <tr>
             <th>Train Name</th>
@@ -216,7 +217,7 @@ class BookTrain extends PolymerElement {
         this.set('route.path', '/tickets')
     }
     /**
-     * @descripTrains populates the list of available flights
+     * @descripTrains populates the list of available trains
      * @param {*} event 
      */
     _ajaxResponse(event) {

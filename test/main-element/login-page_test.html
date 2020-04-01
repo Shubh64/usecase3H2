@@ -17,8 +17,13 @@
       <login-page></login-page>
     </template>
   </test-fixture>
+  <!-- create test fixture template -->
+  <test-fixture id="ajaxCall">
+    <template>
+      <ajax-call></ajax-call>
+    </template>
+  </test-fixture>
   <script>
-
 
     describe('When the component is rendered', function () {
       beforeEach(function () {
@@ -65,19 +70,59 @@
           element.$.mobileNumber.value = '9876123456';
           element.$.password.value = '123'
           loginBtn.click();
-          element.dispatchEvent(new CustomEvent('ajax-response', {
-            bubbles: true, composed: true, detail: {
-              data: [{
-                "userName": "Shubh",
-                "gender": "Male",
-                "emailId": "A@b",
-                "mobileNumber": 1234567890,
-                "password": "1234",
-                "address": "asdfgh",
-                "id": 1
-              }]
-            }
-          }));
+          describe('<iron-ajax>', function () {
+            var ajax;
+            var request;
+            var server;
+            var responseHeaders = {
+              json: { 'Content-Type': 'application/json' }
+            };
+            it('ajax',function () {
+              server = sinon.fakeServer.create();
+              server.respondWith(
+                'GET',
+                /\/responds_to_get_with_json.*/, [
+                200,
+                responseHeaders.json,
+                '{"success":true}'
+              ]
+              );
+            })
+            afterEach(function () {
+              server.restore();
+            });
+            describe('when making simple GET requests for JSON', function () {
+              beforeEach(function () {
+                // get fresh instance of iron-ajax before every test
+                ajax = fixture('simple-get');
+              });
+              it('has sane defaults that love you', function () {
+                request = ajax.generateRequest();
+                server.respond();
+                expect(request.response).to.be.ok;
+                expect(request.response).to.be.an('object');
+                expect(request.response.success).to.be.equal(true);
+              });
+              it('has the correct xhr method', function () {
+                request = ajax.generateRequest();
+                expect(request.xhr.method).to.be.equal('GET');
+              });
+            });
+          })
+
+          // element.dispatchEvent(new CustomEvent('ajax-response', {
+          //   bubbles: true, composed: true, detail: {
+          //     data: [{
+          //       "userName": "Shubh",
+          //       "gender": "Male",
+          //       "emailId": "A@b",
+          //       "mobileNumber": 1234567890,
+          //       "password": "1234",
+          //       "address": "asdfgh",
+          //       "id": 1
+          //     }]
+          //   }
+          // }));
 
         })
       })
