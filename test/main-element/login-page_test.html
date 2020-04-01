@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+
 <head>
   <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
   <script src="../../node_modules/@polymer/test-fixture/test-fixture.js"></script>
@@ -19,55 +20,69 @@
   <script>
 
 
-      describe('When the component is rendered', function () {
-        beforeEach(function () {
-          element = fixture('loginFixture');
-          elementShadowRoot = element.shadowRoot;
-        });
-        it('should render the component', function () {
-          expect(element).to.be.exist;
-          expect(elementShadowRoot).to.be.exist;
-        });
-        it('should render the mobile number input field', () => {
-          let mobileNumber = elementShadowRoot.querySelector('#mobileNumber')
-          expect(mobileNumber).to.be.exist;
-        });
+    describe('When the component is rendered', function () {
+      beforeEach(function () {
+        element = fixture('loginFixture');
+        elementShadowRoot = element.shadowRoot;
+      });
+      it('should render the component', function () {
+        expect(element).to.be.exist;
+        expect(elementShadowRoot).to.be.exist;
+      });
+      it('should render the mobile number input field', () => {
+        let mobileNumber = elementShadowRoot.querySelector('#mobileNumber')
+        expect(mobileNumber).to.be.exist;
+      });
 
-        it('should render the password input field', () => {
-          let password = elementShadowRoot.querySelector('#password')
-          expect(password).to.be.exist;
-        });
-        it('should render the request login button', () => {
-          let loginBtn = elementShadowRoot.querySelector('#loginBtn');
-          let mobileNumber = elementShadowRoot.querySelector('#mobileNumber');
-          expect(loginBtn).to.be.exist;
-          expect(loginBtn.innerHTML).to.be.equal('LogIn');
-        });
+      it('should render the password input field', () => {
+        let password = elementShadowRoot.querySelector('#password')
+        expect(password).to.be.exist;
+      });
+      it('should render the request login button', () => {
+        let loginBtn = elementShadowRoot.querySelector('#loginBtn');
+        let mobileNumber = elementShadowRoot.querySelector('#mobileNumber');
+        expect(loginBtn).to.be.exist;
+        expect(loginBtn.innerHTML).to.be.equal('LogIn');
+      });
 
-        describe('AND when button is clicked', ()=>{
-          let sinonSpy;
-          let loginBtn;
-          beforeEach(() => {
-            loginBtn = elementShadowRoot.querySelector('#loginBtn');
-            sinonSpy = sinon.spy();
-            loginBtn.addEventListener('click', sinonSpy);
-          });
-          it('should call signIn() method once', function (done) {
-            flush(function () {
-              loginBtn.click();
-              expect(sinonSpy.callCount).to.be.equal(1)
-              done();
-            })
+      describe('AND when button is clicked', () => {
+        let sinonSpy;
+        let loginBtn;
+        beforeEach(() => {
+          loginBtn = elementShadowRoot.querySelector('#loginBtn');
+          sinonSpy = sinon.spy();
+          loginBtn.addEventListener('click', sinonSpy);
+        });
+        it('should call signIn() method once', function (done) {
+          flush(function () {
+            loginBtn.click();
+            expect(sinonSpy.callCount).to.be.equal(1)
+            done();
           })
-          it('should validate the form and call the function makeAjaxCall', (done) => {
-        
-              element.$.mobileNumber.value = '9876123456';
-              element.$.password.value='123'
-              loginBtn.click();
-            })
         })
-            })
-        
+        it('should validate the form and call the function makeAjaxCall', (done) => {
+
+          element.$.mobileNumber.value = '9876123456';
+          element.$.password.value = '123'
+          loginBtn.click();
+          element.dispatchEvent(new CustomEvent('ajax-response', {
+            bubbles: true, composed: true, detail: {
+              data: [{
+                "userName": "Shubh",
+                "gender": "Male",
+                "emailId": "A@b",
+                "mobileNumber": 1234567890,
+                "password": "1234",
+                "address": "asdfgh",
+                "id": 1
+              }]
+            }
+          }));
+
+        })
+      })
+    })
+
   </script>
 </body>
 
