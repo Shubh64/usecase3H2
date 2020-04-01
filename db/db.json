@@ -1,0 +1,36 @@
+{
+  "users": [
+    {
+      "userName": "Shubh",
+      "gender": "Male",
+      "emailId": "A@b",
+      "mobileNumber": 3456789876,
+      "password": "1234",
+      "address": "asdfgh",
+      "id": 1
+    }
+  ],
+  "trains": [
+    {
+      "id": 1,
+      "trainName": "TrainNo.1",
+      "trainNo": 11,
+      "Departure": "Mumbai",
+      "Arrival": "Delhi",
+      "DepartureTime": "10:30",
+      "ArrivalTime": "15:30",
+      "Distance": "550km"
+    },
+    {
+      "id": 1,
+      "trainName": "TrainNo.2",
+      "trainNo": 12,
+      "Departure": "Delhi",
+      "Arrival": "Mumbai",
+      "DepartureTime": "09:30",
+      "ArrivalTime": "15:30",
+      "Distance": "550km"
+    }
+  ],
+  "bookedTickets": []
+}
