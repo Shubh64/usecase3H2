@@ -4,10 +4,19 @@
       "userName": "Shubh",
       "gender": "Male",
       "emailId": "A@b",
-      "mobileNumber": 3456789876,
+      "mobileNumber": 1234567890,
       "password": "1234",
       "address": "asdfgh",
       "id": 1
+    },
+    {
+      "userName": "Amit",
+      "gender": "Male",
+      "emailId": "amit@email.com",
+      "mobileNumber": 9876543210,
+      "password": "123",
+      "address": "Delhi",
+      "id": 2
     }
   ],
   "trains": [
@@ -15,22 +24,79 @@
       "id": 1,
       "trainName": "TrainNo.1",
       "trainNo": 11,
-      "Departure": "Mumbai",
-      "Arrival": "Delhi",
-      "DepartureTime": "10:30",
-      "ArrivalTime": "15:30",
-      "Distance": "550km"
+      "departure": "Mumbai",
+      "arrival": "Delhi",
+      "departureTime": "10:30",
+      "arrivalTime": "15:30",
+      "distance": "550km",
+      "price": 500,
+      "date": "10/03/04"
     },
     {
       "id": 1,
       "trainName": "TrainNo.2",
       "trainNo": 12,
-      "Departure": "Delhi",
-      "Arrival": "Mumbai",
-      "DepartureTime": "09:30",
-      "ArrivalTime": "15:30",
-      "Distance": "550km"
+      "departure": "Delhi",
+      "arrival": "Mumbai",
+      "departureTime": "09:30",
+      "arrivalTime": "15:30",
+      "distance": "550km",
+      "price": 500,
+      "date": "10/03/04"
     }
   ],
-  "bookedTickets": []
+  "bookedTickets": [
+    {
+      "userName": "Shubh",
+      "travellerDetails": [
+        {
+          "travellerName": "Amit",
+          "gender": "male",
+          "age": 34
+        }
+      ],
+      "trainDetails": {
+        "from": "Delhi",
+        "destination": "Mumbai",
+        "trainName": "TrainNo.1",
+        "departureTime": "10:30",
+        "arrivalTime": "15:30",
+        "price": 500,
+        "trainNo": 11,
+        "date": "10/03/04"
+      },
+      "id": 1
+    },
+    {
+      "userName": "Amit",
+      "travellerDetails": [
+        {
+          "travellerName": "Amit",
+          "gender": "male",
+          "age": 23
+        },
+        {
+          "travellerName": "Sparsh",
+          "gender": "male",
+          "age": 23
+        },
+        {
+          "travellerName": "Ankita",
+          "gender": "female",
+          "age": 22
+        }
+      ],
+      "trainDetails": {
+        "from": "Delhi",
+        "destination": "Mumbai",
+        "trainName": "TrainNo.1",
+        "departureTime": "10:30",
+        "arrivalTime": "15:30",
+        "price": 500,
+        "trainNo": 11,
+        "date": "10/03/04"
+      },
+      "id": 2
+    }
+  ]
 }

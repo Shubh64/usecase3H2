@@ -115,9 +115,7 @@ class MainElement extends PolymerElement {
                 <paper-icon-button class="menu-button" icon="menu" drawer-toggle hidden$="{{wideLayout}}">
                 </paper-icon-button>
                 <span class="heading-title">Ticket Booking</span>
-                <template is="dom-if" if="{{isLogin}}" >
                 <paper-button raised id="logout" hidden$={{!login}} on-click="_logOut">Log Out</paper-button>
-                </template>
                 </app-toolbar>
                 <!-- Nav on desktop: tabs -->
                 <nav class="tabs-bar" hidden$="{{!wideLayout}}">
@@ -132,7 +130,7 @@ class MainElement extends PolymerElement {
                 <login-page name="login"></login-page>
                 <registration-page name="registration"></registration-page>
                 <book-train name="book"></book-train>
-                <train-list name="trains"></train-list>
+                <book-tickets name="tickets"></book-tickets>
                 <previous-tickets id="bookings" name="bookings"></previous-tickets>
                 <ticket-summary id="summary" name="summary"></ticket-summary>
                 <error-view name="error404"></error-view>
@@ -161,24 +159,11 @@ class MainElement extends PolymerElement {
               items: {
                 type: Array,
                 value: function () {
-                  return [{ label: 'bookings', route: 'bookings' }, { label: 'book', route: 'book' },{ label: 'registration', route: 'registration' }, { label: 'summary', route: 'summary' },{ label: 'trains', route: 'trains' }, { label: 'login', route: 'login' }]
+                  return []
                 }
               }
             };
           }
-          // ready()
-          // {
-          //   super.ready();
-          //   if(sessionStorage.getItem('isLogin'))
-          //   {
-          //     this.login=true;
-          //   }
-          //   this.addEventListener('LoggedIn-Nav',()=>
-          //   {
-          //     this.notifyPath('items.0.login')
-          //     this.login=true;
-          //   })
-          // }
           _logOut()
           {
             sessionStorage.clear();
@@ -187,7 +172,7 @@ class MainElement extends PolymerElement {
           }
           connectedCallback() {
             super.connectedCallback();
-            this.isLogin = sessionStorage.getItem('isLogin');
+            this.login = sessionStorage.getItem('login');
           
         }
            /**
@@ -208,7 +193,7 @@ class MainElement extends PolymerElement {
               break;
             case 'book': import('./book-train.js')
               break;
-              case 'trains': import('./train-list.js')
+              case 'tickets': import('./book-tickets.js')
               break;
             default: import('./error-view.js')
               break;

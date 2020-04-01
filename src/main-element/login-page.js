@@ -91,7 +91,7 @@ class LoginPage extends PolymerElement {
     if(this.$.form.validate()){
   const mobileNumber = this.$.mobileNumber.value;
   const password=this.$.password.value;
-     this.$.ajax._makeAjaxCall('get',`http://localhost:3000/users?mobileNumber=${mobileNumber}&&password=${password}`,null,'')  
+     this.$.ajax._makeAjaxCall('get',`http://localhost:3000/users?mobileNumber=${mobileNumber}&&password=${password}`,null,'ajaxResponse')  
     }
     else{
     
@@ -109,15 +109,15 @@ class LoginPage extends PolymerElement {
   {
     console.log(event.detail.data)
     const data=event.detail.data;
-      this.$.toast.open();
-      if(event.detail.data.statusCode==603){
-      sessionStorage.setItem('isLogin',true);
+    console.log(data.length)
+    if(data.length!=0){
+      sessionStorage.setItem('login',true);
       sessionStorage.setItem('userDetails',JSON.stringify(data));
-      this.set('route.path','/home')
+      this.set('route.path','/book')
   }
   else{
     this.$.toast.open();
-    this.message="invalid credential"
+    this.message="User Not Found"
   }
 }
   /**

@@ -47,8 +47,6 @@ class AjaxCall extends PolymerElement {
     switch (this.action) {
       case 'ajaxResponse': this.dispatchEvent(new CustomEvent('ajax-response', { bubbles: true, composed: true, detail: { data } }))
       break;
-      case 'checkEligibility': this.dispatchEvent(new CustomEvent('check-eligibility', { bubbles: true, composed: true, detail: { data } }))
-      break;
       default:
     }
   }
