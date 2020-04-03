@@ -6,7 +6,7 @@ import '@polymer/paper-radio-group/paper-radio-group.js';
 import '@polymer/paper-card/paper-card.js'
 import '@polymer/app-route/app-location.js';
 import '@polymer/iron-icon/iron-icon.js'
-import './ajax-call.js';
+import '@polymer/iron-ajax/iron-ajax.js'
 import '@polymer/paper-toast/paper-toast.js';
 /**
  * @customElement
@@ -34,11 +34,11 @@ class BookTickets extends PolymerElement {
             cursor:pointer;
         }
       </style>
-      <ajax-call id="ajax"></ajax-call>
+      <iron-ajax id="ajax" on-response="_handleResponse" on-error="_handleError" handle-as="json" content-type="application/json"> </iron-ajax>
       <app-location route="{{route}}"></app-location>
       <button on-click="_handleBack"><iron-icon icon="icons:arrow-back"></iron-icon></button>
     <h2>Enter your Details</h2>
-    <table>
+    <table id="table">
     <thead id="tableHead">
        <tr>
         <td>Name</td>
@@ -59,7 +59,7 @@ class BookTickets extends PolymerElement {
     </template>
   </tbody>
 </table>
-    <paper-button raised on-click="_handleClick">Confirm Booking</paper-button> 
+    <paper-button raised id="confirmBooking" on-click="_handleClick">Confirm Booking</paper-button> 
     <paper-toast text={{message}} id="toast"></paper-toast>
     `;
   }
@@ -75,14 +75,11 @@ class BookTickets extends PolymerElement {
       }
     };
   }
-
   connectedCallback() {
     super.connectedCallback();
-    window.location.reload();
     /*getting the no. of travellers from session storage 
  *displaying no. of properties to get the data of travellers accordingly
  */
-
     this.travellers = JSON.parse(sessionStorage.getItem('travellerDetails'));
     this.trainDetails = JSON.parse(sessionStorage.getItem('trainDetails'));
   }
@@ -104,7 +101,7 @@ class BookTickets extends PolymerElement {
     console.log(userName)
     let postObj={userName,travellerDetails:this.travellerDetails,trainDetails:this.trainDetails}
     sessionStorage.setItem('travelDetail', JSON.stringify(this.travellerDetails));
-    this.$.ajax._makeAjaxCall('post',`http://localhost:3000/bookedTickets`,postObj,'ajaxResponse')  
+    this._makeAjaxCall('post',`${baseUrl}/bookedTickets`,postObj,'ajaxResponse')  
     this.message='Booking Confirmed';
     this.$.toast.open();
     this.set('route.path', '/summary')
@@ -112,17 +109,32 @@ class BookTickets extends PolymerElement {
   _handleBack() {
     this.set('route.path', '/book')
   }
+   /**
+   * listening customEvents sent from child elements
+   */
+  
   ready()
   {
     super.ready();
     this.addEventListener('ajax-response',(e)=>this._ajaxResponse(e))
   }
-  _ajaxResponse()
-  {
-    
-    this.$.toast.open();
+_makeAjaxCall(method, url, obj, action) {
+  const ajax = this.$.ajax;
+  this.action = action
+  ajax.body = obj ? JSON.stringify(obj) : undefined;
+  ajax.method = method;
+  ajax.url = url;
+  ajax.generateRequest();
+}
+
+/**
+* @description: Fired everytime when ajax call is made.It handles response of the ajax 
+* @param {*} event 
+*/
+_handleResponse(event) {
+  const data = event.detail.response
+  this.$.toast.open();
     this.message="Booking Successful"
 }
 }
-
 window.customElements.define('book-tickets', BookTickets);

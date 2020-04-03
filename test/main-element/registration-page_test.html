@@ -17,6 +17,12 @@
             <registration-page></registration-page>
         </template>
     </test-fixture>
+
+    <test-fixture id="registerAjaxFixture">
+        <template>
+            <iron-ajax method="POST" url='/responds_to_post_with_json'></iron-ajax>
+        </template>
+    </test-fixture>
     <script>
 
 
@@ -29,7 +35,7 @@
                 expect(element).to.be.exist;
                 expect(elementShadowRoot).to.be.exist;
             });
-            it('should render n input field', () => {
+            it('should render user name field', () => {
                 let name = elementShadowRoot.querySelector('#name')
                 expect(name).to.be.exist;
             });
@@ -37,18 +43,12 @@
                 let email = elementShadowRoot.querySelector('#email')
                 expect(email).to.be.exist;
             });
-            it('should render the Gender input field', () => {
-                let gender = elementShadowRoot.querySelector('#gender')
-                expect(gender).to.be.exist;
-            });
+
             it('should render the mobile number input field', () => {
                 let mobileNumber = elementShadowRoot.querySelector('#mobileNumber')
                 expect(mobileNumber).to.be.exist;
             });
-            it('should render the Address input field', () => {
-                let address = elementShadowRoot.querySelector('#address')
-                expect(address).to.be.exist;
-            });
+
             it('should render the password input field', () => {
                 let password = elementShadowRoot.querySelector('#password')
                 expect(password).to.be.exist;
@@ -60,7 +60,9 @@
                 expect(registerBtn.innerHTML).to.be.equal('Register');
             });
 
-            describe('AND when button is clicked', () => {
+
+
+            describe('AND when register button is clicked', () => {
                 let sinonSpy;
                 let registerBtn;
                 beforeEach(() => {
@@ -68,7 +70,7 @@
                     sinonSpy = sinon.spy();
                     registerBtn.addEventListener('click', sinonSpy);
                 });
-                it('should call handleRegister method once', function (done) {
+                it('should call _handleRegister() method once', function (done) {
                     flush(function () {
                         registerBtn.click();
                         expect(sinonSpy.callCount).to.be.equal(1)
@@ -76,18 +78,54 @@
                     })
                 })
                 it('should validate the form and call the function makeAjaxCall', (done) => {
-                    element.$.name.value = 'Shubh';
-                    element.$.email.value = 'shubh@email.com'
-                    element.$.gender.selected = 'male';
-                    element.$.address.value = 'Delhi'
-                    element.$.mobileNumber.value = '9876123456'; 
-                    element.$.password.value = '123'
+                    element.$.name.value = 'amit';
+                    element.$.email.value = 'amit@gmail.com'; 
+                    element.$.gender.selected = 'Male'               
+                    element.$.mobileNumber.value = '123456789';
+                    element.$.address.value = 'ABC'
+                    element.$.password.value = '123';
                     registerBtn.click();
-                    element.dispatchEvent(new CustomEvent('ajax-response',{ bubbles: true, composed: true, detail: { data:[ {} ] } }));         
+                    done();
+                    
 
                 })
             })
-        })
+
+            describe('<iron-ajax>', function () {
+                    var ajax;
+                    var request;
+                    var server;
+                    var responseHeaders = {
+                        json: { 'Content-Type': 'application/json' }
+                    };
+                    beforeEach(()=>{
+                        server = sinon.fakeServer.create();                       
+                        server.respondWith(
+                            'POST',
+                            '/responds_to_post_with_json',
+                            [200, responseHeaders.json, '{"post_success":true}']
+                        );
+                    });
+                    afterEach(() => {
+                        server.restore();
+                    });
+                    describe('when making simple POST requests for JSON', function () {
+                        beforeEach(() => {
+                            ajax = fixture('registerAjaxFixture');
+                        })
+                        it('sends a real post requests for JSON', function (){
+                            request = ajax.generateRequest();
+                            server.respond();
+                            expect(request.response).to.be.ok;
+                            expect(request.response).to.be.an('object');
+                            expect(request.response.post_success).to.be.equal(true);
+                        });
+                    });
+                });
+            });
+
+
+
 
     </script>
 </body>

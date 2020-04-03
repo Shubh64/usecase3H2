@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+
+<head>
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../../node_modules/@polymer/test-fixture/test-fixture.js"></script>
+    <script src="../../node_modules/mocha/mocha.js"></script>
+    <script src="../../node_modules/chai/chai.js"></script>
+    <script src="../../node_modules/sinon/pkg/sinon.js"></script>
+    <script src="../../node_modules/wct-mocha/wct-mocha.js"></script>
+    <script type="module" src="../../src/main-element/book-tickets.js"></script>
+</head>
+
+<body>
+    <test-fixture id="bookTickets">
+        <template>
+            <book-tickets></book-tickets>
+        </template>
+    </test-fixture>
+    <script>
+
+
+        describe('When the component is rendered', function () {
+            beforeEach(function () {
+                element = fixture('bookTickets');
+                elementShadowRoot = element.shadowRoot;
+            });
+            it('should render the component', function () {
+                expect(element).to.be.exist;
+                expect(elementShadowRoot).to.be.exist;
+            });
+
+            it('should render the Table  ', () => {
+                let table = elementShadowRoot.querySelector('#table')
+                expect(table).to.be.exist;
+            });
+            it('should render the Confirm Booking button', () => {
+                let confirmBooking = elementShadowRoot.querySelector('#confirmBooking');
+                expect(confirmBooking).to.be.exist;
+                expect(confirmBooking.innerHTML).to.be.equal('Confirm Booking');
+                this.travellers = JSON.parse(sessionStorage.getItem('travellerDetails'));
+                this.trainDetails = JSON.parse(sessionStorage.getItem('trainDetails'));
+            });
+            describe('AND when button is clicked', () => {
+                let sinonSpy;
+                let confirmBooking;
+                beforeEach(() => {
+                    confirmBooking = elementShadowRoot.querySelector('#confirmBooking');
+                    sinonSpy = sinon.spy();
+                    confirmBooking.addEventListener('click', sinonSpy);
+                });
+                it('should call Confirm Booking method once', function (done) {
+                    flush(function () {
+                        confirmBooking.click();
+                        expect(sinonSpy.callCount).to.be.equal(1)
+                        done();
+                    })
+                    it('should get the data from session storage', () => {
+                        this.travellers = JSON.parse(sessionStorage.getItem('travellerDetails'));
+                        this.trainDetails = JSON.parse(sessionStorage.getItem('trainDetails'));
+                    });
+                })
+            })
+        })
+    </script>
+</body>
+
+</html>

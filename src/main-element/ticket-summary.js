@@ -1,8 +1,10 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import '@polymer/paper-button/paper-button.js';
-import './shared-styles.js';
+import './shared/shared-styles.js';
 import '@polymer/iron-icon/iron-icon.js'
 import '@polymer/app-route/app-location.js';
+
+import './shared/shared-table.js';
 
 /**
  * @customElement
@@ -26,6 +28,7 @@ class TicketSummary extends PolymerElement {
           cursor:pointer;
         }
       </style>
+      
       <app-location route="{{route}}"></app-location>
       <paper-button on-click="_handleBack"><iron-icon icon="icons:arrow-back"></iron-icon></paper-button>
       <div id="bookingSummary">
@@ -39,24 +42,7 @@ class TicketSummary extends PolymerElement {
         </ul>
       </div>
       <h3>Travellers Details</h3>
-      <table id="table">
-      <thead id="tableHead">
-         <tr>
-          <th>Name</th>
-          <th>Age</th>
-          <th>Gender</th>
-      </tr>
-      </thead>
-        <tbody>
-          <template is="dom-repeat" items="{{travelDetail}}" >
-          <tr>
-            <td>{{item.travellerName}}</td>
-            <td>{{item.age}}</td>
-            <td>{{item.gender}}</td>
-        </tr>
-      </template>
-    </tbody>
-  </table>
+      <shared-table headings={{headings}} rows={{rows}}></shared-table>
   
     `;
   }
@@ -73,14 +59,26 @@ class TicketSummary extends PolymerElement {
       totalPrice: {
         type: Number,
         value: 0
+      },
+      headings:{
+        type:Array,
+        value:["Name","Age","Gender"]
+      },
+      rows:{
+        type:Array,
+        value:[]
       }
     };
   }
+  /**
+   * @description: when the page is loaded details are fetched from the session storage
+   */
   connectedCallback() {
     super.connectedCallback();
-    this.travelDetail = JSON.parse(sessionStorage.getItem('travelDetail'));
+    this.rows = JSON.parse(sessionStorage.getItem('travelDetail'));
+    console.log(this.rows);
     this.trainDetails = JSON.parse(sessionStorage.getItem('trainDetails'))
-    this.totalPrice = parseFloat(this.travelDetail.length, 10) * parseFloat(this.trainDetails.price, 10)
+    this.totalPrice = parseFloat(this.rows.length, 10) * parseFloat(this.trainDetails.price, 10)
   }
   /**
    * @description: _handleBack() is fired when back button is clicked

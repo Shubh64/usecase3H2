@@ -3,10 +3,10 @@
     {
       "userName": "Shubh",
       "gender": "Male",
-      "emailId": "A@b",
-      "mobileNumber": 1234567890,
-      "password": "1234",
-      "address": "asdfgh",
+      "emailId": "Shubh@email.com",
+      "mobileNumber": 9876543210,
+      "password": "123",
+      "address": "Delhi",
       "id": 1
     }
   ],
@@ -37,6 +37,26 @@
     }
   ],
   "bookedTickets": [
-    
+    {
+      "userName": "Shubh",
+      "travellerDetails": [
+        {
+          "travellerName": "Amit",
+          "gender": "female",
+          "age": 23
+        }
+      ],
+      "trainDetails": {
+        "from": "Delhi",
+        "destination": "Mumbai",
+        "trainName": "TrainNo.1",
+        "departureTime": "10:30",
+        "arrivalTime": "15:30",
+        "price": 500,
+        "trainNo": 11,
+        "date": "10/03/04"
+      },
+      "id": 2
+    }
   ]
 }

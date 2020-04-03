@@ -1,6 +1,6 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
-import './ajax-call.js';
-import './shared-styles.js';
+import '@polymer/iron-ajax/iron-ajax.js'
+import './shared/shared-styles.js';
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/paper-card/paper-card.js';
 /**
@@ -21,7 +21,7 @@ class PreviousTickets extends PolymerElement {
           font-weight:lighter;
         }
       </style>
-      <ajax-call id="ajax"></ajax-call>
+      <iron-ajax id="ajax" on-response="_handleResponse" on-error="_handleError" handle-as="json" content-type="application/json"> </iron-ajax>
       <app-location route="{{route}}"></app-location>
       <paper-button on-click="_handleBack"><iron-icon icon="icons:arrow-back"></iron-icon></paper-button>
       <h3>Booking Details</h3>
@@ -71,23 +71,34 @@ class PreviousTickets extends PolymerElement {
       }
     };
   }
-  ready() {
-    //listening custom events sent as a response by makeAjaxCall 
-    super.ready();
-    this.addEventListener('ajax-response', (e) => this._ajaxResponse(e))
-  }
+   /**
+   * getting the data whhen page is loaded 
+   */
   connectedCallback() {
     super.connectedCallback();
     this.userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     let userName=this.userDetails[0].userName
-    this.$.ajax._makeAjaxCall('get',`http://localhost:3000/bookedTickets?userName=${userName}`,null,'ajaxResponse')  
+    this._makeAjaxCall('get',`${window.baseUrl}/bookedTickets?userName=${userName}`,null,'ajaxResponse')  
   }
   /**
    * 
    * @param {*} event 
    */
-  _ajaxResponse(event) {
-    this.travelDetails = event.detail.data
+  _makeAjaxCall(method, url, obj, action) {
+    const ajax = this.$.ajax;
+    this.action = action
+    ajax.body = obj ? JSON.stringify(obj) : undefined;
+    ajax.method = method;
+    ajax.url = url;
+    ajax.generateRequest();
+  }
+
+/**
+ * @description: Fired everytime when ajax call is made.It handles response of the ajax 
+ * @param {*} event 
+ */
+  _handleResponse(event) {
+    this.travelDetails = event.detail.response
     this.travellerDetails=this.travelDetails[0].travellerDetails
     this.trainDetails=this.travelDetails[0].trainDetails
   }

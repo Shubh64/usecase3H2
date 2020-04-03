@@ -6,9 +6,11 @@ import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-button/paper-button.js';
 import '@polymer/app-route/app-location.js';
-import './ajax-call.js';
+import '@polymer/iron-ajax/iron-ajax.js'
 import '@polymer/paper-checkbox/paper-checkbox.js'
-import './shared-styles';
+import './shared/shared-styles.js';
+import '@polymer/paper-toast/paper-toast.js';
+
 /**
 * @customElement
 * @polymer
@@ -107,7 +109,7 @@ class BookTrain extends PolymerElement {
         display:inline;
     }
 </style>
-<ajax-call id="ajax"></ajax-call>
+<iron-ajax id="ajax" on-response="_handleResponse" on-error="_handleError" handle-as="json" content-type="application/json"> </iron-ajax>
 <app-location route="{{route}}"></app-location>
 <paper-button id="myBookings" on-click="_handleMyBookings" raised>My Bookings</paper-button>
 <!--Test doc's -->
@@ -160,6 +162,8 @@ class BookTrain extends PolymerElement {
                 </tbody>
                 </template>
         </table>
+        <paper-toast id="toast" text={{message}}></paper-toast>
+
 `;
     }
  
@@ -179,12 +183,6 @@ class BookTrain extends PolymerElement {
             noOfTraveller: Number,
         };
     }
-    ready() {
-        //listening custom events sent as a response by makeAjaxCall 
-        super.ready();
-        this.addEventListener('ajax-response', (e) => this._ajaxResponse(e))
-      
-    }
 
     //_handleSearch is invoked when user clicks on search button
     _handleSearch() {
@@ -194,11 +192,11 @@ class BookTrain extends PolymerElement {
         let travellerDetails = []
         this.data = { from: this.from, destination: this.destination, finalDate: this.finalDate }
         for (let i = 0; i < this.noOfTraveller; i++) {
-            let obj = { name: "", gender: "", age: "" };
+            let obj = { name: ""                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   , gender: "", age: "" };
             travellerDetails.push(obj);
         }
         sessionStorage.setItem('travellerDetails', JSON.stringify(travellerDetails));
-        this.$.ajax._makeAjaxCall("get", `http://localhost:3000/trains?departure=${this.destination}&arrival=${this.from}`, null, 'ajaxResponse')
+        this._makeAjaxCall("get", `${baseUrl}/trains?departure=${this.destination}&arrival=${this.from}`, null, 'ajaxResponse')
     }
    
     /**
@@ -216,17 +214,31 @@ class BookTrain extends PolymerElement {
         sessionStorage.setItem('trainDetails', JSON.stringify(this.data))
         this.set('route.path', '/tickets')
     }
-    /**
-     * @descripTrains populates the list of available trains
-     * @param {*} event 
-     */
-    _ajaxResponse(event) {
-        this.trainsList = event.detail.data;
-    }
+    _makeAjaxCall(method, url, obj, action) {
+        const ajax = this.$.ajax;
+        this.action = action
+        ajax.body = obj ? JSON.stringify(obj) : undefined;
+        ajax.method = method;
+        ajax.url = url;
+        ajax.generateRequest();
+      }
     
     /**
-     * 
+     * @description: Fired everytime when ajax call is made.It handles response of the ajax 
+     * @param {*} event 
      */
+      _handleResponse(event) {
+          let data=event.detail.response;
+          if(data.length!=0){
+            this.trainsList = event.detail.response;
+          }
+          else{
+            this.message='No trains Found'
+            this.$.toast.open();
+          }
+        
+
+      }
     _handleMyBookings() {
         this.set('route.path', './bookings')
     }

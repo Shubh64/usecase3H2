@@ -3,8 +3,9 @@ import '@polymer/paper-button/paper-button.js';
 import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-toast/paper-toast.js';
 import '@polymer/iron-form/iron-form.js';
-import './ajax-call.js';
+import '@polymer/iron-ajax/iron-ajax.js'
 import '@polymer/app-route/app-location.js';
+import './shared/paper-loader.js';
 /**
  * @customElement
  * @polymer
@@ -51,9 +52,10 @@ class LoginPage extends PolymerElement {
       justify-content: center;
     }
   </style>
+  <paper-loader loading={{loading}}></paper-loader>
   <app-location route={{route}}></app-location>
   <paper-toast text={{message}} id="toast"></paper-toast>
-  <ajax-call id="ajax"></ajax-call>
+  <iron-ajax id="ajax" on-response="_handleResponse" on-error="_handleError" handle-as="json" content-type="application/json"> </iron-ajax>
   <iron-form id="form">
   <form>
   <paper-input  id="mobileNumber" auto required allowed-pattern=[0-9] minlength="10" maxlength="10" label="Enter mobileNumber"></paper-input>
@@ -70,17 +72,16 @@ class LoginPage extends PolymerElement {
       message:{
         type:String,
         value:''
+      },
+      loading:{
+        type:Boolean,
+        value:false
       }
     };
   }
   /**
    * listening customEvents sent from child elements
    */
-  ready()
-  {
-    super.ready();
-    this.addEventListener('ajax-response',(e)=>this._ajaxResponse(e))
-  }
   /**
    * 
    * @param {mouseEvent} event on SignIn click event is fired
@@ -89,9 +90,10 @@ class LoginPage extends PolymerElement {
    */
   _signIn(){
     if(this.$.form.validate()){
-  const mobileNumber = this.$.mobileNumber.value;
-  const password=this.$.password.value;
-     this.$.ajax._makeAjaxCall('get',`http://localhost:3000/users?mobileNumber=${mobileNumber}&&password=${password}`,null,'ajaxResponse')  
+      const mobileNumber = this.$.mobileNumber.value;
+      const password=this.$.password.value;
+      this.loading=true;
+     this._makeAjaxCall('get',`${baseUrl}/users?mobileNumber=${mobileNumber}&&password=${password}`,null,'ajaxResponse')  
     }
     else{
     
@@ -105,10 +107,25 @@ class LoginPage extends PolymerElement {
    * handles the response sent by the database
    * transfer the user on the base of role as customer or staff to respective page
    */
-  _ajaxResponse(event)
-  {
-    console.log(event.detail.data)
-    const data=event.detail.data;
+  /**
+   * is handle carousel effect on the rendering of login page
+   */
+  _makeAjaxCall(method, url, obj, action) {
+    const ajax = this.$.ajax;
+    this.action = action
+    ajax.body = obj ? JSON.stringify(obj) : undefined;
+    ajax.method = method;
+    ajax.url = url;
+    ajax.generateRequest();
+  }
+
+/**
+ * @description: Fired everytime when ajax call is made.It handles response of the ajax 
+ * @param {*} event 
+ */
+  _handleResponse(event) {
+    this.loading=false;
+    const data=event.detail.response;
     console.log(data.length)
     if(data.length!=0){
       sessionStorage.setItem('login',true);
@@ -119,12 +136,6 @@ class LoginPage extends PolymerElement {
     this.$.toast.open();
     this.message="User Not Found"
   }
-}
-  /**
-   * is handle carousel effect on the rendering of login page
-   */
-  connectedCallback(){
-    super.connectedCallback();
   }
   _handleRegister(){
     this.set('route.path','/registration')

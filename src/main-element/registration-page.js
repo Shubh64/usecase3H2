@@ -10,8 +10,8 @@ import '@polymer/iron-form/iron-form.js';
 import '@polymer/iron-ajax/iron-ajax.js';
 import '@polymer/paper-radio-button/paper-radio-button.js';
 import '@polymer/paper-radio-group/paper-radio-group.js';
-import './ajax-call.js';
 import '@polymer/app-route/app-location.js';
+import './shared/paper-loader.js';
 /**
  * @customElement
  * @polymer
@@ -72,7 +72,7 @@ class RegistrationPage extends PolymerElement {
        }
       </style>
       <app-location route={{route}}></app-location>
-      <ajax-call id="ajax"></ajax-call>
+      <iron-ajax id="ajax" on-response="_handleResponse" on-error="_handleError" handle-as="json" content-type="application/json"> </iron-ajax>
       <div id="container">
       <main>
       <iron-form id="register">
@@ -94,6 +94,7 @@ class RegistrationPage extends PolymerElement {
       </main>
       </div>
       <paper-toast id="toast" text={{message}}></paper-toast>
+      <paper-loader loading={{loading}}></paper-loader>
     `;
   }
   static get properties() {
@@ -104,11 +105,6 @@ class RegistrationPage extends PolymerElement {
       }
     };
   }
-  ready()
-  {
-    super.ready();
-    this.addEventListener('ajax-response',(e)=>this._ajaxResponse(e))
-  }
    /**
     * validation of the user form is done and then registration
     */
@@ -117,17 +113,41 @@ class RegistrationPage extends PolymerElement {
     if (this.$.register.validate()) {
       let userObj = {userName:this.$.name.value,gender:this.$.gender.selected,emailId:this.$.email.value, mobileNumber:parseInt(this.$.mobileNumber.value), password:this.$.password.value ,address:this.$.address.value};
       console.log(userObj);
-      this.$.ajax._makeAjaxCall('post',`http://localhost:3000/users`,userObj,'ajaxResponse');
+      this._makeAjaxCall('post',`${baseUrl}/users`,userObj,'ajaxResponse');
+      this.loading="true";
       this.message='Registration Successful'
       this.$.toast.open();
     }
   }
+/**
+   * @description:handle diferent  ajax calls  
+  *@param {String} url url of specific location
+  *@param {String} method method type:get/put/post/delete
+  *@param {Object} postObj needs object as value for put/post and null for get/delete
+  *@param {Boolean} sync true for synchronization and false for asynchronization
+  **/
+  _makeAjaxCall(method, url, obj, action) {
+    const ajax = this.$.ajax;
+    this.action = action
+    ajax.body = obj ? JSON.stringify(obj) : undefined;
+    ajax.method = method;
+    ajax.url = url;
+    ajax.generateRequest();
+  }
 
-  _ajaxResponse(event){
-      this.message="Successfully Registered";
+/**
+ * @description: Fired everytime when ajax call is made.It handles response of the ajax 
+ * @param {*} event 
+ */
+  _handleResponse(event) {
+    this.message="Successfully Registered";
       this.$.toast.open();
+      this.loading="false";
     this.$.register.reset();
   }
+  /**
+   * when the lodin button is clicked
+   */
   _handleLogin(){
     this.set('route.path','/login')
   }
