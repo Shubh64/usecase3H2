@@ -18,40 +18,46 @@
         </template>
     </test-fixture>
     <script>
+        window.baseUrl="http://localhost:3000";
+      </script>
+    <script>
 
 
         describe('When the component is rendered', function () {
             beforeEach(function () {
-                element = fixture('ticketSummary');
-                elementShadowRoot = element.shadowRoot;
-            });
-            it('should render the component', function () {
-                this.trainDetails.price = '200'
-                this.travelDetail.length = "2"
                 let travelDetail = [
                     {
-                        "travellerName": "Sandy",
-                        "gender": "male",
-                        "age": 23
+                        travellerName: "Sandy",
+                        gender: "male",
+                        age: 23
                     },
                     {
-                        "travellerName": "Gaurav",
-                        "gender": "male",
-                        "age": 23
+                        travellerName: "Gaurav",
+                        gender: "male",
+                        age: 23
                     }
                 ];
                 let trainDetails = {
-                    "id": 1,
-                    "trainName": "TrainNo.1",
-                    "trainNo": 11,
-                    "departure": "Mumbai",
-                    "arrival": "Delhi",
-                    "departureTime": "10:30",
-                    "arrivalTime": "15:30",
-                    "distance": "550km",
-                    "price": 500,
-                    "date": "10/03/04"
+                    id: 1,
+                    trainName: "TrainNo.1",
+                    trainNo: 11,
+                    departure: "Mumbai",
+                    arrival: "Delhi",
+                    departureTime: "10:30",
+                    arrivalTime: "15:30",
+                    distance: "550km",
+                    price: 500,
+                    date: "10/03/04"
                 }
+                    sessionStorage.setItem('travelDetail',JSON.stringify(travelDetail));
+                    sessionStorage.setItem('trainDetails',JSON.stringify(trainDetails));
+                element = fixture('ticketSummary');
+                elementShadowRoot = element.shadowRoot;
+
+            });
+            it('should render the component', function () {
+                element.trainDetails.price = '200'
+                element.travelDetail.length = "2"
                 expect(element).to.be.exist;
                 expect(elementShadowRoot).to.be.exist;
             });
@@ -61,64 +67,14 @@
             });
 
             it('should render the table', () => {
-                this.trainDetails.price = '200'
-                this.travelDetail.length = "2"
-                let travelDetail = [
-                    {
-                        "travellerName": "Sandy",
-                        "gender": "male",
-                        "age": 23
-                    },
-                    {
-                        "travellerName": "Gaurav",
-                        "gender": "male",
-                        "age": 23
-                    }
-                ];
-                let trainDetails = {
-                    "id": 1,
-                    "trainName": "TrainNo.1",
-                    "trainNo": 11,
-                    "departure": "Mumbai",
-                    "arrival": "Delhi",
-                    "departureTime": "10:30",
-                    "arrivalTime": "15:30",
-                    "distance": "550km",
-                    "price": 500,
-                    "date": "10/03/04"
-                }
                 let table = elementShadowRoot.querySelector('#table')
                 expect(table).to.be.exist;
 
             });
             it('should render the totalPrice', () => {
-                this.trainDetails.price = '200'
-                this.travelDetail.length = "2"
-                let travelDetail = [
-                    {
-                        "travellerName": "Sandy",
-                        "gender": "male",
-                        "age": 23
-                    },
-                    {
-                        "travellerName": "Gaurav",
-                        "gender": "male",
-                        "age": 23
-                    }
-                ];
-                let trainDetails = {
-                    "id": 1,
-                    "trainName": "TrainNo.1",
-                    "trainNo": 11,
-                    "departure": "Mumbai",
-                    "arrival": "Delhi",
-                    "departureTime": "10:30",
-                    "arrivalTime": "15:30",
-                    "distance": "550km",
-                    "price": 500,
-                    "date": "10/03/04"
-                }
-                this.totalPrice = parseFloat(this.travelDetail.length, 10) * parseFloat(this.trainDetails.price, 10)
+                element.trainDetails.price = '200'
+                element.travelDetail.length = "2"
+                element.totalPrice = parseFloat(element.travelDetail.length, 10) * parseFloat(element.trainDetails.price, 10)
 
             });
         })

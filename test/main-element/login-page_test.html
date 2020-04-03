@@ -17,7 +17,9 @@
             <login-page></login-page>
         </template>
     </test-fixture>
-
+    <script>
+        window.baseUrl="http://localhost:3000";
+      </script>
     <test-fixture id="loginAjaxFixture">
         <template>
             <iron-ajax url='/responds_to_get_with_500_error_json'></iron-ajax>

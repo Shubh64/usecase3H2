@@ -96,9 +96,7 @@ class BookTickets extends PolymerElement {
       this.travellerDetails.push(obj);
     }
     this.userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-    console.log(this.userDetails)
     let userName=this.userDetails[0].userName
-    console.log(userName)
     let postObj={userName,travellerDetails:this.travellerDetails,trainDetails:this.trainDetails}
     sessionStorage.setItem('travelDetail', JSON.stringify(this.travellerDetails));
     this._makeAjaxCall('post',`${baseUrl}/bookedTickets`,postObj,'ajaxResponse')  

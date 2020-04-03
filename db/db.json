@@ -44,6 +44,11 @@
           "travellerName": "Amit",
           "gender": "female",
           "age": 23
+        },
+        {
+          "travellerName": "Shubham",
+          "gender": "male",
+          "age": 23
         }
       ],
       "trainDetails": {
@@ -57,6 +62,116 @@
         "date": "10/03/04"
       },
       "id": 2
+    },
+    {
+      "userName": "Abhinav",
+      "travellerDetails": [
+        {
+          "travellerName": "",
+          "age": null
+        }
+      ],
+      "trainDetails": {
+        "id": 1,
+        "trainName": "TrainNo.1",
+        "trainNo": 11,
+        "departure": "Mumbai",
+        "arrival": "Delhi",
+        "departureTime": "10:30",
+        "arrivalTime": "15:30",
+        "distance": "550km",
+        "price": 500,
+        "date": "10/03/04"
+      },
+      "id": 3
+    },
+    {
+      "userName": "Abhinav",
+      "travellerDetails": [
+        {
+          "travellerName": "",
+          "age": null
+        }
+      ],
+      "trainDetails": {
+        "id": 1,
+        "trainName": "TrainNo.1",
+        "trainNo": 11,
+        "departure": "Mumbai",
+        "arrival": "Delhi",
+        "departureTime": "10:30",
+        "arrivalTime": "15:30",
+        "distance": "550km",
+        "price": 500,
+        "date": "10/03/04"
+      },
+      "id": 4
+    },
+    {
+      "userName": "Abhinav",
+      "travellerDetails": [
+        {
+          "travellerName": "",
+          "age": null
+        }
+      ],
+      "trainDetails": {
+        "id": 1,
+        "trainName": "TrainNo.1",
+        "trainNo": 11,
+        "departure": "Mumbai",
+        "arrival": "Delhi",
+        "departureTime": "10:30",
+        "arrivalTime": "15:30",
+        "distance": "550km",
+        "price": 500,
+        "date": "10/03/04"
+      },
+      "id": 5
+    },
+    {
+      "userName": "Abhinav",
+      "travellerDetails": [
+        {
+          "travellerName": "",
+          "age": null
+        }
+      ],
+      "trainDetails": {
+        "id": 1,
+        "trainName": "TrainNo.1",
+        "trainNo": 11,
+        "departure": "Mumbai",
+        "arrival": "Delhi",
+        "departureTime": "10:30",
+        "arrivalTime": "15:30",
+        "distance": "550km",
+        "price": 500,
+        "date": "10/03/04"
+      },
+      "id": 6
+    },
+    {
+      "userName": "Abhinav",
+      "travellerDetails": [
+        {
+          "travellerName": "",
+          "age": null
+        }
+      ],
+      "trainDetails": {
+        "id": 1,
+        "trainName": "TrainNo.1",
+        "trainNo": 11,
+        "departure": "Mumbai",
+        "arrival": "Delhi",
+        "departureTime": "10:30",
+        "arrivalTime": "15:30",
+        "distance": "550km",
+        "price": 500,
+        "date": "10/03/04"
+      },
+      "id": 7
     }
   ]
 }

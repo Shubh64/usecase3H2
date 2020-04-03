@@ -42,7 +42,7 @@ class TicketSummary extends PolymerElement {
         </ul>
       </div>
       <h3>Travellers Details</h3>
-      <shared-table headings={{headings}} rows={{rows}}></shared-table>
+      <shared-table id="table" headings={{headings}} rows={{rows}}></shared-table>
   
     `;
   }

@@ -17,7 +17,9 @@
             <registration-page></registration-page>
         </template>
     </test-fixture>
-
+    <script>
+        window.baseUrl="http://localhost:3000";
+      </script>
     <test-fixture id="registerAjaxFixture">
         <template>
             <iron-ajax method="POST" url='/responds_to_post_with_json'></iron-ajax>
@@ -59,9 +61,7 @@
                 expect(registerBtn).to.be.exist;
                 expect(registerBtn.innerHTML).to.be.equal('Register');
             });
-
-
-
+            
             describe('AND when register button is clicked', () => {
                 let sinonSpy;
                 let registerBtn;
