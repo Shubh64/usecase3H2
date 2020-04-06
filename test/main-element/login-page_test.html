@@ -69,8 +69,8 @@
                 })
 
                 it('should validate the form and call the function makeAjaxCall', (done) => {
-                    element.$.mobileNumber.value = '123456789';
-                    element.$.password.value = '123'
+                    element.mobileNumber = '123456789';
+                    element.password = '123'
                     loginBtn.click();
                     done();
 
@@ -113,6 +113,7 @@
                         });
                     });
                 });
+                
             })
         })
 

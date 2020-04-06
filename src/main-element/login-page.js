@@ -58,8 +58,8 @@ class LoginPage extends PolymerElement {
   <iron-ajax id="ajax" on-response="_handleResponse" on-error="_handleError" handle-as="json" content-type="application/json"> </iron-ajax>
   <iron-form id="form">
   <form>
-  <paper-input  id="mobileNumber" auto required allowed-pattern=[0-9] minlength="10" maxlength="10" label="Enter mobileNumber"></paper-input>
-  <paper-input id="password" auto  required type="password" label="Password"></paper-input>  <span>
+  <paper-input char-counter  id="mobileNumber" value={{mobileNumber}} auto required allowed-pattern=[0-9] minlength="10" maxlength="10" label="Enter Mobile Number"></paper-input>
+  <paper-input id="password" auto value={{password}}  required type="password" label="Password"></paper-input>  <span>
   <paper-button on-click="_signIn" raised id="loginBtn">LogIn</paper-button></span>
   <sub>New Here?<a id="registerBtn" on-click="_handleRegister">Register</a></sub>
   </form>
@@ -90,10 +90,10 @@ class LoginPage extends PolymerElement {
    */
   _signIn(){
     if(this.$.form.validate()){
-      const mobileNumber = this.$.mobileNumber.value;
-      const password=this.$.password.value;
+      const mobileNumber = this.mobileNumber;
+      const password=this.password;
       this.loading=true;
-     this._makeAjaxCall('get',`${baseUrl}/users?mobileNumber=${mobileNumber}&&password=${password}`,null,'ajaxResponse')  
+     this._makeAjaxCall('get',`${Window.baseUrl}/users?mobileNumber=${mobileNumber}&&password=${password}`,null,'ajaxResponse')  
     }
     else{
     
@@ -126,7 +126,7 @@ class LoginPage extends PolymerElement {
   _handleResponse(event) {
     this.loading=false;
     const data=event.detail.response;
-    console.log(data.length)
+    console.log(data)
     if(data.length!=0){
       sessionStorage.setItem('login',true);
       sessionStorage.setItem('userDetails',JSON.stringify(data));

@@ -76,7 +76,6 @@ class TicketSummary extends PolymerElement {
   connectedCallback() {
     super.connectedCallback();
     this.rows = JSON.parse(sessionStorage.getItem('travelDetail'));
-    console.log(this.rows);
     this.trainDetails = JSON.parse(sessionStorage.getItem('trainDetails'))
     this.totalPrice = parseFloat(this.rows.length, 10) * parseFloat(this.trainDetails.price, 10)
   }

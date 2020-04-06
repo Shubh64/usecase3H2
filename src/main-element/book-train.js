@@ -10,6 +10,7 @@ import '@polymer/iron-ajax/iron-ajax.js'
 import '@polymer/paper-checkbox/paper-checkbox.js'
 import './shared/shared-styles.js';
 import '@polymer/paper-toast/paper-toast.js';
+import '@vaadin/vaadin-date-picker/vaadin-date-picker.js'
 
 /**
 * @customElement
@@ -130,6 +131,8 @@ class BookTrain extends PolymerElement {
                     <paper-item>6</paper-item>
                 </paper-listbox>
             </paper-dropdown-menu>
+            <li><label for="date">Date</label></li>
+            <li><vaadin-date-picker id="date"></vaadin-date-picker></li>
         </li>
     </ul>
 </nav>
@@ -188,6 +191,8 @@ class BookTrain extends PolymerElement {
     _handleSearch() {
         this.from = this.$.from.value;
         this.destination = this.$.destination.value;
+        this.date=this.$.date.value;
+        console.log(this.date)
         this.noOfTraveller = parseInt(this.$.noOfTraveller.value, 10);
         let travellerDetails = []
         this.data = { from: this.from, destination: this.destination, finalDate: this.finalDate }
@@ -196,7 +201,7 @@ class BookTrain extends PolymerElement {
             travellerDetails.push(obj);
         }
         sessionStorage.setItem('travellerDetails', JSON.stringify(travellerDetails));
-        this._makeAjaxCall("get", `${baseUrl}/trains?departure=${this.destination}&arrival=${this.from}`, null, 'ajaxResponse')
+        this._makeAjaxCall("get", `${Window.baseUrl}/trains?departure=${this.destination}&arrival=${this.from}&date=${this.date}`, null, 'ajaxResponse')
     }
    
     /**

@@ -77,16 +77,16 @@ class RegistrationPage extends PolymerElement {
       <main>
       <iron-form id="register">
       <form>
-      <paper-input auto id="name" required type="text" allowed-pattern=[a-zA-Z] label="Enter Name" > </paper-input>
-      <paper-input auto id="email" required type="email" error-message="Email Id must contain '@' symbol" name="emailIs"  label="Enter Email Id" > </paper-input>
+      <paper-input auto id="name" value={{name}} required type="text" allowed-pattern=[a-zA-Z] label="Enter Name" > </paper-input>
+      <paper-input auto id="email" value={{email}} required type="email" error-message="Email Id must contain '@' symbol" name="emailIs"  label="Enter Email Id" > </paper-input>
       <paper-radio-group selected="Male" id="gender">
           <label for="Gender">Gender</label>
           <paper-radio-button name="Male">Male</paper-radio-button>
           <paper-radio-button name="Female">Female</paper-radio-button>
         </paper-radio-group>
-      <paper-input auto id="mobileNumber" required name="mobileNumber" allowed-pattern=[0-9] label="Enter Contact Number" minlength="10" maxlength="10"> </paper-input>
-      <paper-input auto id="password" required name="password" type="password" label="Enter Password"></paper-input>
-      <paper-input auto id="address" required name="address" type="text" label="Enter City"></paper-input>
+      <paper-input auto char-counter value={{mobileNumber}} id="mobileNumber" required name="mobileNumber" allowed-pattern=[0-9] label="Enter Contact Number" minlength="10" maxlength="10"> </paper-input>
+      <paper-input auto id="password" value={{password}} required name="password" type="password" label="Enter Password"></paper-input>
+      <paper-input auto id="address" value={{address}} required name="address" type="text" label="Enter City"></paper-input>
       <paper-button raised id="registerBtn" on-click="_handleRegister">Register</paper-button>
       <sub>Already Registered?<a id="loginBtn" on-click="_handleLogin">Login</a></sub>
       </form>
@@ -111,9 +111,8 @@ class RegistrationPage extends PolymerElement {
   _handleRegister() {
 
     if (this.$.register.validate()) {
-      let userObj = {userName:this.$.name.value,gender:this.$.gender.selected,emailId:this.$.email.value, mobileNumber:parseInt(this.$.mobileNumber.value), password:this.$.password.value ,address:this.$.address.value};
-      console.log(userObj);
-      this._makeAjaxCall('post',`${baseUrl}/users`,userObj,'ajaxResponse');
+      let userObj = {userName:this.name,gender:this.$.gender.selected,emailId:this.email, mobileNumber:parseInt(this.mobileNumber), password:this.password ,address:this.address};
+      this._makeAjaxCall('post',`${Window.baseUrl}/users`,userObj,'ajaxResponse');
       this.loading="true";
       this.message='Registration Successful'
       this.$.toast.open();

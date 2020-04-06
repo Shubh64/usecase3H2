@@ -78,12 +78,12 @@
                     })
                 })
                 it('should validate the form and call the function makeAjaxCall', (done) => {
-                    element.$.name.value = 'amit';
-                    element.$.email.value = 'amit@gmail.com'; 
+                    element.name = 'amit';
+                    element.email = 'amit@gmail.com'; 
                     element.$.gender.selected = 'Male'               
-                    element.$.mobileNumber.value = '123456789';
-                    element.$.address.value = 'ABC'
-                    element.$.password.value = '123';
+                    element.mobileNumber = '123456789';
+                    element.address = 'ABC'
+                    element.password = '123';
                     registerBtn.click();
                     done();
                     

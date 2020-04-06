@@ -78,7 +78,7 @@ class PreviousTickets extends PolymerElement {
     super.connectedCallback();
     this.userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
     let userName=this.userDetails[0].userName
-    this._makeAjaxCall('get',`${window.baseUrl}/bookedTickets?userName=${userName}`,null,'ajaxResponse')  
+    this._makeAjaxCall('get',`${Window.baseUrl}/bookedTickets?userName=${userName}`,null,'ajaxResponse')  
   }
   /**
    * 

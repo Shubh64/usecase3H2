@@ -99,7 +99,7 @@ class BookTickets extends PolymerElement {
     let userName=this.userDetails[0].userName
     let postObj={userName,travellerDetails:this.travellerDetails,trainDetails:this.trainDetails}
     sessionStorage.setItem('travelDetail', JSON.stringify(this.travellerDetails));
-    this._makeAjaxCall('post',`${baseUrl}/bookedTickets`,postObj,'ajaxResponse')  
+    this._makeAjaxCall('post',`${Window.baseUrl}/bookedTickets`,postObj,'ajaxResponse')  
     this.message='Booking Confirmed';
     this.$.toast.open();
     this.set('route.path', '/summary')
